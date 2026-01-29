@@ -1,129 +1,123 @@
-import { useState, useEffect } from 'react';
-import { FaPlus, FaArrowUp, FaArrowDown, FaWallet } from 'react-icons/fa';
-import AddTransactionModal from '../components/AddTransactionModal';
-import TransactionList from '../components/TransactionList';
-import { transactionAPI, dashboardAPI } from '../services/api';
+import { useState } from 'react';
+import { FaPlus } from 'react-icons/fa';
 
 const Home = ({ onTransactionChange, refreshTrigger }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [stats, setStats] = useState({
-        totalIncome: 0,
-        totalExpense: 0,
-        balance: 0,
-    });
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetchStats();
-    }, [refreshTrigger]);
-
-    const fetchStats = async () => {
-        try {
-            setLoading(true);
-            const data = await dashboardAPI.getSummary();
-            setStats({
-                totalIncome: data.totalIncome || 0,
-                totalExpense: data.totalExpense || 0,
-                balance: (data.totalIncome || 0) - (data.totalExpense || 0),
-            });
-        } catch (error) {
-            console.error('Error fetching stats:', error);
-            // Set default values on error
-            setStats({ totalIncome: 0, totalExpense: 0, balance: 0 });
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleTransactionAdded = () => {
-        setIsModalOpen(false);
-        onTransactionChange();
-    };
-
     return (
-        <div className="space-y-8 animate-fade-in">
+        <div className="space-y-8 py-6">
             {/* Hero Section */}
-            <div className="text-center space-y-4 py-8">
-                <h1 className="text-5xl font-display font-bold text-gradient">
+            <div className="text-center space-y-3">
+                <h1 className="text-4xl font-bold text-gray-900">
                     Welcome to Money Manager
                 </h1>
-                <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-                    Track your income and expenses with ease. Manage your finances like a pro!
+                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Track your income and expenses efficiently. Take control of your finances today!
                 </p>
             </div>
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Total Income */}
-                <div className="stat-card group">
+                <div className="stat-card">
                     <div className="flex items-center justify-between mb-4">
-                        <div className="w-12 h-12 bg-success-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                            <FaArrowUp className="text-success-400 text-xl" />
+                        <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <span className="text-2xl">💰</span>
                         </div>
                         <span className="badge-success">Income</span>
                     </div>
-                    <h3 className="text-slate-400 text-sm font-semibold mb-2">Total Income</h3>
-                    <p className="text-3xl font-bold text-gradient-success">
-                        ₹{loading ? '...' : stats.totalIncome.toLocaleString('en-IN')}
+                    <h3 className="text-gray-600 text-sm font-medium mb-2">Total Income</h3>
+                    <p className="text-3xl font-bold text-green-600">
+                        ₹0
                     </p>
                 </div>
 
                 {/* Total Expense */}
-                <div className="stat-card group">
+                <div className="stat-card">
                     <div className="flex items-center justify-between mb-4">
-                        <div className="w-12 h-12 bg-danger-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                            <FaArrowDown className="text-danger-400 text-xl" />
+                        <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                            <span className="text-2xl">💸</span>
                         </div>
                         <span className="badge-danger">Expense</span>
                     </div>
-                    <h3 className="text-slate-400 text-sm font-semibold mb-2">Total Expense</h3>
-                    <p className="text-3xl font-bold text-gradient-danger">
-                        ₹{loading ? '...' : stats.totalExpense.toLocaleString('en-IN')}
+                    <h3 className="text-gray-600 text-sm font-medium mb-2">Total Expense</h3>
+                    <p className="text-3xl font-bold text-red-600">
+                        ₹0
                     </p>
                 </div>
 
                 {/* Balance */}
-                <div className="stat-card group">
+                <div className="stat-card">
                     <div className="flex items-center justify-between mb-4">
-                        <div className="w-12 h-12 bg-primary-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                            <FaWallet className="text-primary-400 text-xl" />
+                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <span className="text-2xl">💼</span>
                         </div>
                         <span className="badge-primary">Balance</span>
                     </div>
-                    <h3 className="text-slate-400 text-sm font-semibold mb-2">Current Balance</h3>
-                    <p className={`text-3xl font-bold ${stats.balance >= 0 ? 'text-gradient-success' : 'text-gradient-danger'}`}>
-                        ₹{loading ? '...' : stats.balance.toLocaleString('en-IN')}
+                    <h3 className="text-gray-600 text-sm font-medium mb-2">Current Balance</h3>
+                    <p className="text-3xl font-bold text-blue-600">
+                        ₹0
                     </p>
                 </div>
             </div>
 
-            {/* Recent Transactions */}
-            <div className="glass-card p-6">
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-display font-bold text-white">Recent Transactions</h2>
+            {/* Getting Started Card */}
+            <div className="glass-card p-8 text-center">
+                <div className="max-w-2xl mx-auto space-y-6">
+                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                        <span className="text-3xl">📊</span>
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                            Start Managing Your Finances
+                        </h2>
+                        <p className="text-gray-600 mb-6">
+                            Add your first transaction to begin tracking your income and expenses.
+                            Get insights into your spending patterns and make better financial decisions.
+                        </p>
+                    </div>
+                    <div className="flex gap-4 justify-center flex-wrap">
+                        <button className="btn-primary inline-flex items-center gap-2">
+                            <FaPlus />
+                            Add Transaction
+                        </button>
+                        <button className="btn-secondary">
+                            View Dashboard
+                        </button>
+                    </div>
                 </div>
-                <TransactionList
-                    refreshTrigger={refreshTrigger}
-                    onTransactionChange={onTransactionChange}
-                    limit={10}
-                />
             </div>
 
-            {/* Floating Action Button */}
-            <button
-                onClick={() => setIsModalOpen(true)}
-                className="fab"
-                aria-label="Add Transaction"
-            >
-                <FaPlus />
-            </button>
+            {/* Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <div className="glass-card p-6 text-center">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl">📈</span>
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">Track Expenses</h3>
+                    <p className="text-sm text-gray-600">
+                        Monitor your daily expenses and categorize them for better insights
+                    </p>
+                </div>
 
-            {/* Add Transaction Modal */}
-            <AddTransactionModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onSuccess={handleTransactionAdded}
-            />
+                <div className="glass-card p-6 text-center">
+                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl">💵</span>
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">Manage Income</h3>
+                    <p className="text-sm text-gray-600">
+                        Record all your income sources and track your earnings over time
+                    </p>
+                </div>
+
+                <div className="glass-card p-6 text-center">
+                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl">📊</span>
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">Visual Reports</h3>
+                    <p className="text-sm text-gray-600">
+                        Get detailed charts and reports to understand your financial health
+                    </p>
+                </div>
+            </div>
         </div>
     );
 };

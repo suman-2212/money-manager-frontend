@@ -3,44 +3,41 @@ import { FaHome, FaChartLine, FaWallet } from 'react-icons/fa';
 
 const Navbar = () => {
     const location = useLocation();
-
     const isActive = (path) => location.pathname === path;
 
     return (
-        <nav className="glass-card sticky top-0 z-50 border-b border-white/10">
+        <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-16">
-                    {/* Logo */}
-                    <Link to="/" className="flex items-center space-x-2 group">
-                        <div className="w-10 h-10 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30 group-hover:shadow-primary-500/50 transition-all duration-300">
-                            <FaWallet className="text-white text-xl" />
+                    <Link to="/" className="flex items-center space-x-3 group">
+                        <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow duration-200">
+                            <FaWallet className="text-white text-lg" />
                         </div>
-                        <span className="text-xl font-display font-bold text-gradient">
+                        <span className="text-xl font-semibold text-gray-900">
                             Money Manager
                         </span>
                     </Link>
 
-                    {/* Navigation Links */}
-                    <div className="flex items-center space-x-1">
+                    <div className="flex items-center space-x-2">
                         <Link
                             to="/"
                             className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${isActive('/')
-                                    ? 'bg-primary-500/20 text-primary-400'
-                                    : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                                    ? 'bg-blue-50 text-blue-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                 }`}
                         >
                             <FaHome />
-                            <span className="font-semibold">Home</span>
+                            <span className="font-medium">Home</span>
                         </Link>
                         <Link
                             to="/dashboard"
                             className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${isActive('/dashboard')
-                                    ? 'bg-primary-500/20 text-primary-400'
-                                    : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                                    ? 'bg-blue-50 text-blue-600'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                 }`}
                         >
                             <FaChartLine />
-                            <span className="font-semibold">Dashboard</span>
+                            <span className="font-medium">Dashboard</span>
                         </Link>
                     </div>
                 </div>

@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// Create axios instance with base configuration
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000',
     headers: {
@@ -9,10 +8,8 @@ const api = axios.create({
     timeout: 10000,
 });
 
-// Request interceptor
 api.interceptors.request.use(
     (config) => {
-        // Add auth token if available
         const token = localStorage.getItem('token');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
@@ -24,7 +21,6 @@ api.interceptors.request.use(
     }
 );
 
-// Response interceptor
 api.interceptors.response.use(
     (response) => response.data,
     (error) => {
@@ -34,7 +30,6 @@ api.interceptors.response.use(
     }
 );
 
-// Transaction APIs
 export const transactionAPI = {
     getAll: (params) => api.get('/api/transactions', { params }),
     getById: (id) => api.get(`/api/transactions/${id}`),
@@ -43,7 +38,6 @@ export const transactionAPI = {
     delete: (id) => api.delete(`/api/transactions/${id}`),
 };
 
-// Dashboard APIs
 export const dashboardAPI = {
     getMonthly: (params) => api.get('/api/dashboard/monthly', { params }),
     getWeekly: (params) => api.get('/api/dashboard/weekly', { params }),
@@ -51,7 +45,6 @@ export const dashboardAPI = {
     getSummary: (params) => api.get('/api/dashboard/summary', { params }),
 };
 
-// Account APIs
 export const accountAPI = {
     getAll: () => api.get('/api/accounts'),
     transfer: (data) => api.post('/api/accounts/transfer', data),
